@@ -1,9 +1,8 @@
-import {useSelector, useDispatch} from "react-redux";
-import {FormTextField} from './FormTextField';
-import {updateFormState} from "../features/form/formSlice";
-import isEmpty from "validator/es/lib/isEmpty";
-import isEmail from "validator/es/lib/isEmail";
 import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {FormTextField} from "./FormTextField";
+import {updateFormState} from "../features/form/formSlice";
+import {validateEmail, validateUsername} from "../helpers/validators";
 
 const getInitialFormState = (fieldsObj) => {
     return Object.entries(fieldsObj).reduce((acc, [name, value]) => {
@@ -17,9 +16,7 @@ export const Form = () => {
     const [formState, setFormState] = useState(getInitialFormState(formFields));
     const {
         fields: {
-            firstName,
-            lastName,
-            email
+            firstName, lastName, email
         }, isFormValid
     } = formState;
 
@@ -41,8 +38,7 @@ export const Form = () => {
             const isFormValid = updateValidity(fields);
 
             return {
-                fields,
-                isFormValid
+                fields, isFormValid
             }
         });
     }
@@ -54,8 +50,8 @@ export const Form = () => {
         handleFieldChange({name, value, isValid});
     }
 
-    const nameInputHandler = getFieldHandler((value) => !isEmpty(value));
-    const emailInputHandler = getFieldHandler((value) => isEmail(value));
+    const nameInputHandler = getFieldHandler(validateUsername);
+    const emailInputHandler = getFieldHandler(validateEmail);
 
     return (<form onSubmit={handleSubmit}>
         <FormTextField value={firstName.value} onChange={nameInputHandler} name="firstName" label="First name"/>
