@@ -25,8 +25,11 @@ export const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const newFields = Object.entries(formState.fields).reduce((acc, [name, {value}]) => {
+            return {...acc, [name]: value};
+        }, {});
 
-        dispatch(updateFormState(formState.fields));
+        dispatch(updateFormState(newFields));
     }
 
     const handleFieldChange = ({name, value, isValid}) => {
