@@ -3,28 +3,19 @@ import {createSlice} from "@reduxjs/toolkit";
 export const formSlice = createSlice({
     name: "form",
     initialState: {
-        firstName: {
-            value: "",
-            isValid: null,
-        },
-        lastName: {
-            value: "",
-            isValid: null,
-        },
-        email: {
-            value: "",
-            isValid: null,
-        }
+        firstName: "",
+        lastName: "",
+        email: ""
     },
     reducers: {
-        updateField: (state, action) => {
-            const {name, value, isValid} = action.payload;
-            state[name].value = value;
-            state[name].isValid = isValid;
+        updateFormState: (state, action) => {
+            state.firstName = action.payload.firstName;
+            state.lastName = action.payload.lastName;
+            state.email = action.payload.email;
         }
     }
 });
 
-export const {updateField} = formSlice.actions;
+export const {updateFormState} = formSlice.actions;
 
 export default formSlice.reducer;
